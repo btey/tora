@@ -32,8 +32,7 @@
  *
  * END_COMMON_COPYRIGHT_HEADER */
 
-#ifndef TOQUERY_H
-#define TOQUERY_H
+#pragma once
 
 #include "core/tora_export.h"
 #include "core/tocache.h"
@@ -229,5 +228,4 @@ private:
     void *operator new[](size_t);
 };
 
-#endif
-
+Q_DECLARE_METATYPE(toQueryAbstr::HeaderDesc);

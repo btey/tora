@@ -178,7 +178,7 @@ public:
 	private slots:
 	void queryDone(toEventQuery*);
 	void explainDone(toEventQuery*);
-	void slotErrorHanler(toEventQuery*, toConnection::exception  const &);
+	void queryError(toEventQuery*, toConnection::exception  const &);
 
 	void childComboReady();
 	void childComboChanged(int NewIndex);

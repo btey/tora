@@ -247,8 +247,7 @@ void toResultItem::query(const QString &sql, toQueryParams const& param)
                                  , param
                                  , toEventQuery::READ_ALL);
         auto c1 = connect(Query, &toEventQuery::dataAvailable, this, &toResultItem::receiveData);
-        auto c2 = connect(Query, &toEventQuery::done, this, [=](toEventQuery *q, unsigned long) { slotQueryDone(); });
-        //connect(Query, SIGNAL(done(toEventQuery*, unsigned long)), this, SLOT(slotQueryDone()));
+        auto c2 = connect(Query, &toEventQuery::done, this, &toResultItem::queryDone);
         Query->start();
     }
     catch (const QString &str)
@@ -371,7 +370,7 @@ void toResultItem::receiveData(toEventQuery*)
     }
 }
 
-void toResultItem::slotQueryDone(void )
+void toResultItem::queryDone(toEventQuery*, unsigned long)
 {
     done();
     delete Query;

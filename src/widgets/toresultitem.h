@@ -1,4 +1,4 @@
-
+#pragma once
 /* BEGIN_COMMON_COPYRIGHT_HEADER
  *
  * TOra - An Oracle Toolkit for DBA's and developers
@@ -31,9 +31,6 @@
  * All trademarks belong to their respective owners.
  *
  * END_COMMON_COPYRIGHT_HEADER */
-
-#ifndef TORESULTITEM_H
-#define TORESULTITEM_H
 
 #include "core/toresult.h"
 
@@ -142,7 +139,7 @@ class toResultItem : public QScrollArea, public toResult
 
     private slots:
         void receiveData(toEventQuery*);
-        void slotQueryDone(void);
+        void queryDone(toEventQuery*, unsigned long);
 
     private:
         /** Setup widget.
@@ -189,5 +186,3 @@ class toResultItem : public QScrollArea, public toResult
 
         toEventQuery *Query;
 };
-
-#endif

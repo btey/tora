@@ -432,7 +432,7 @@ toWorksheetStatistic *toAnalyze::worksheet(void)
 void toAnalyze::startQuery(toEventQuery * q)
 {
     connect(q, &toEventQuery::dataAvailable, this, &toAnalyze::receiveData);
-    connect(q, SIGNAL(done(toEventQuery*,unsigned long)), this, SLOT(slotQueryDone(toEventQuery*)));
+    connect(q, &toEventQuery::done, this, &toAnalyze::queryDone);
     q->start();
 } // connectSlots
 
@@ -590,7 +590,7 @@ void toAnalyze::receiveData(toEventQuery* q)
     TOCATCH;
 }
 
-void toAnalyze::slotQueryDone(toEventQuery* q)
+void toAnalyze::queryDone(toEventQuery* q)
 {
     Running.removeOne(q);
     delete q;

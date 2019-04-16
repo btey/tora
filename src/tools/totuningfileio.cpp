@@ -271,7 +271,7 @@ void toTuningFileIO::refresh(void)
             Query = new toEventQuery(this, conn, toSQL::string(SQLFileIO, conn), toQueryParams(), toEventQuery::READ_ALL);
 
             auto c1 = connect(Query, &toEventQuery::dataAvailable, this, &toTuningFileIO::receiveData);
-            connect(Query, SIGNAL(done(toEventQuery*, unsigned long)), this, SLOT(queryDone()));
+            auto c2 = connect(Query, &toEventQuery::done, this, &toTuningFileIO::queryDone);
 
 
             Query->start();
@@ -281,7 +281,7 @@ void toTuningFileIO::refresh(void)
     }
 }
 
-void toTuningFileIO::queryDone(void)
+void toTuningFileIO::queryDone(toEventQuery *, unsigned long)
 {
     if (Query)
     {

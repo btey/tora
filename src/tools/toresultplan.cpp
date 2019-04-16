@@ -281,8 +281,6 @@ toResultPlanModel::toResultPlanModel(toEventQuery *query, QObject *parent)
 
     connect(Query, &toEventQuery::dataAvailable, this, &toResultPlanModel::receiveData);
     connect(Query, &toEventQuery::done, this, &toResultPlanModel::slotQueryDone);
-    //connect(Query, SIGNAL(done(toEventQuery*, unsigned long)), this, SLOT(slotQueryDone(toEventQuery*)));
-    //connect(Query, &toEventQuery::error, this, &toResultPlanModel::slotErrorHanler);
     //connect(Query, SIGNAL(error(toEventQuery*,toConnection::exception const &)), this, SLOT(slotErrorHanler(toEventQuery*, toConnection::exception  const &)));
 }
 
@@ -574,7 +572,7 @@ void toResultPlanAbstr::queryPlanTable(toQueryParams const& params)
 
     	explainQuery = new toEventQuery(this, LockedConnection, explain, toQueryParams(), toEventQuery::READ_ALL);
         connect(explainQuery, SIGNAL(done(toEventQuery*, unsigned long)), this, SLOT(explainDone(toEventQuery*)));
-        connect(explainQuery, SIGNAL(error(toEventQuery*,toConnection::exception const &)), this, SLOT(slotErrorHanler(toEventQuery*, toConnection::exception  const &)));
+        auto c2 = connect(explainQuery, &toEventQuery::error, this, &toResultPlanAbstr::queryError);
     	Explaining = true;
     	explainQuery->start();
     }
@@ -608,7 +606,7 @@ void toResultPlanAbstr::explainDone(toEventQuery*q)
 #endif
 }
 
-void toResultPlanAbstr::slotErrorHanler(toEventQuery*, toConnection::exception  const &str)
+void toResultPlanAbstr::queryError(toEventQuery*, toConnection::exception  const &str)
 {
 	try
     {

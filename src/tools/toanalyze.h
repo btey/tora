@@ -71,7 +71,7 @@ class toAnalyze : public toToolWidget
         virtual void slotChangeOperation(int);
         virtual void slotExecute(void);
         virtual void receiveData(toEventQuery *);
-        virtual void slotQueryDone(toEventQuery *);
+        virtual void queryDone(toEventQuery *);
         virtual void slotStop(void);
         virtual void slotRefresh(void);
         virtual void slotSelectPlan(void);

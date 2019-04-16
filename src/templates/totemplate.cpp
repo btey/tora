@@ -877,7 +877,6 @@ void toTemplateSQLObject::expand(void)
                                 );
         connect(Query, &toEventQuery::dataAvailable, this, &toTemplateSQLObject::receiveData);
         connect(Query, &toEventQuery::done, this, [=](toEventQuery*, unsigned long){ queryDone(); });
-        //connect(Query, SIGNAL(done(toEventQuery*,unsigned long)), this, SLOT(queryDone()));
         Query->start();
     }
     TOCATCH

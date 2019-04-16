@@ -62,15 +62,9 @@ toResultModel::toResultModel(toEventQuery *query,
     Query = query;
     Query->setParent(this); // this will satisfy QObject's disposal
 
-    connect(query,
-            SIGNAL(descriptionAvailable(toEventQuery*)),
-            this,
-            SLOT(slotReadHeaders(toEventQuery*)));
-    auto c1 = connect(query, &toEventQuery::dataAvailable, this, &toResultModel::receiveData);
-    connect(query,
-            SIGNAL(error(toEventQuery*, const toConnection::exception &)),
-            this,
-            SLOT(slotQueryError(toEventQuery*, const toConnection::exception &)));
+    auto c1 = connect(query, &toEventQuery::descriptionAvailable, this, &toResultModel::receiveHeaders);
+    auto c2 = connect(query, &toEventQuery::dataAvailable, this, &toResultModel::receiveData);
+    auto c3 = connect(query, &toEventQuery::error, this, &toResultModel::queryError);
     connect(query,
             SIGNAL(done(toEventQuery*, unsigned long)),
             this,
@@ -162,7 +156,7 @@ void toResultModel::cleanup()
 }
 
 
-void toResultModel::slotQueryError(toEventQuery*, const toConnection::exception &err)
+void toResultModel::queryError(toEventQuery*, const toConnection::exception &err)
 {
     if (First)
     {
@@ -658,7 +652,7 @@ bool toResultModel::setHeaderData(int section,
     return true;
 }
 
-void toResultModel::slotReadHeaders(toEventQuery*)
+void toResultModel::receiveHeaders(toEventQuery*)
 {
     if (HeadersRead)
         return;

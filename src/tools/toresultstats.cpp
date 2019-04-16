@@ -205,7 +205,7 @@ void toResultStats::slotRefreshStats(bool reset)
                                  , toEventQuery::READ_ALL
                                 );
         auto c1 = connect(Query, &toEventQuery::dataAvailable, this, &toResultStats::receiveStatisticNamesData);
-        connect(Query, SIGNAL(done(toEventQuery*, unsigned long)), this, SLOT(slotQueryDone()));
+        auto c2 = connect(Query, &toEventQuery::done, this, &toResultStats::queryStatisticNamesDone);
         Query->start();
 
         if (!System)
@@ -217,7 +217,7 @@ void toResultStats::slotRefreshStats(bool reset)
                                          , toEventQuery::READ_ALL
                                         );
             auto c1 = connect(Query, &toEventQuery::dataAvailable, this, &toResultStats::receiveStatisticValuesData);
-            connect(SessionIO, SIGNAL(done(toEventQuery*, unsigned long)), this, SLOT(slotSystemDone()));
+            auto c2 = connect(Query, &toEventQuery::done, this, &toResultStats::queryStatisticsValuesDone);
             SessionIO->start();
         }
 
@@ -252,7 +252,7 @@ void toResultStats::receiveStatisticNamesData(toEventQuery*)
     }
 } // pollQuery
 
-void toResultStats::slotQueryDone(void)
+void toResultStats::queryStatisticNamesDone(toEventQuery*, unsigned long)
 {
     delete Query;
     Query = NULL;
@@ -287,7 +287,7 @@ void toResultStats::receiveStatisticValuesData(toEventQuery*)
     }
 } // pollSystem
 
-void toResultStats::slotSystemDone(void)
+void toResultStats::queryStatisticsValuesDone(toEventQuery*, unsigned long)
 {
     delete SessionIO;
     SessionIO = NULL;

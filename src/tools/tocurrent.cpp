@@ -222,7 +222,7 @@ void toCurrent::processUpdate()
                              , param
                              , toEventQuery::READ_ALL);
     connect(Query, &toEventQuery::dataAvailable, this, &toCurrent::receiveData);
-    connect(Query, SIGNAL(done()), this, SLOT(slotQueryDone()));
+    connect(Query, &toEventQuery::done, this, &toCurrent::queryDone);
     Query->start();
 } // processUpdate
 
@@ -257,7 +257,7 @@ void toCurrent::receiveData(toEventQuery*)
     }
 }
 
-void toCurrent::slotQueryDone()
+void toCurrent::queryDone()
 {
     delete Query;
     Query = NULL;

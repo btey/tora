@@ -454,10 +454,7 @@ void toCodeModel::refresh(toConnection &conn, const QString &owner)
 
         auto c1 = connect(query, &toEventQuery::dataAvailable, this, &toCodeModel::receiveData);
         auto c2 = connect(query, &toEventQuery::error, this, [=](toEventQuery*, const toConnection::exception &e){ queryError(e); });
-        connect(query,
-                SIGNAL(done(toEventQuery*, unsigned long)),
-                this,
-                SLOT(readData()));
+        auto c3 = connect(query, &toEventQuery::done, this, [=](toEventQuery *, unsigned long) { cleanup();});
 
         query->start();
     }

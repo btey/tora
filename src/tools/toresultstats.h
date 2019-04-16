@@ -114,9 +114,9 @@ class toResultStats : public toResultView
 
     private slots:
         void receiveStatisticNamesData(toEventQuery*);
-        void slotQueryDone(void);
         void receiveStatisticValuesData(toEventQuery*);
-        void slotSystemDone(void);
+        void queryStatisticNamesDone(toEventQuery*, unsigned long);
+        void queryStatisticsValuesDone(toEventQuery*, unsigned long);
 
     private:
         /** Setup widget.

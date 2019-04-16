@@ -401,7 +401,7 @@ void toWaitEvents::connectionChanged(void)
     refresh();
 }
 
-void toWaitEvents::slotPoll(toEventQuery*)
+void toWaitEvents::receiveData(toEventQuery*)
 {
     try
     {
@@ -639,9 +639,11 @@ void toWaitEvents::refresh(void)
         else
         	Query = new toEventQuery(this, conn, toSQL::string(SQLWaitEvents, conn), toQueryParams(), toEventQuery::READ_ALL);
 
-        connect(Query, SIGNAL(dataAvailable(toEventQuery*)), this, SLOT(slotPoll(toEventQuery*)));
-        connect(Query, SIGNAL(done(toEventQuery*, unsigned long)), this, SLOT(slotQueryDone(toEventQuery*)));
-        connect(Query, SIGNAL(error(toEventQuery*,toConnection::exception const &)), this, SLOT(slotErrorHanler(toEventQuery*, toConnection::exception  const &)));
+        auto c1 = connect(Query, &toEventQuery::dataAvailable, this, &toWaitEvents::receiveData);
+        auto c2 = connect(Query, &toEventQuery::done, this, &toWaitEvents::slotQueryDone);
+        //connect(Query, SIGNAL(done(toEventQuery*, unsigned long)), this, SLOT(slotQueryDone(toEventQuery*)));
+        auto c3 = connect(Query, &toEventQuery::error, this, &toWaitEvents::slotErrorHanler);
+        //connect(Query, SIGNAL(error(toEventQuery*,toConnection::exception const &)), this, SLOT(slotErrorHanler(toEventQuery*, toConnection::exception  const &)));
 
         Query->start();
     }

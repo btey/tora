@@ -134,14 +134,14 @@ public:
 
 	QModelIndex rootIndex() const;
 
-	signals:
+signals:
 	/**
 	 * Emitted when query is finished.
 	 */
 	 void queryDone(toEventQuery*);
 
 	 private slots:
-	 void slotPoll(toEventQuery*);
+	 void receiveData(toEventQuery*);
 	 void slotQueryDone(toEventQuery*);
 
 	 protected:

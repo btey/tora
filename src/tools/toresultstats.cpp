@@ -204,7 +204,7 @@ void toResultStats::slotRefreshStats(bool reset)
                                  , args
                                  , toEventQuery::READ_ALL
                                 );
-        connect(Query, SIGNAL(dataAvailable(toEventQuery*)), this, SLOT(slotPollQuery()));
+        auto c1 = connect(Query, &toEventQuery::dataAvailable, this, &toResultStats::receiveStatisticNamesData);
         connect(Query, SIGNAL(done(toEventQuery*, unsigned long)), this, SLOT(slotQueryDone()));
         Query->start();
 
@@ -216,7 +216,7 @@ void toResultStats::slotRefreshStats(bool reset)
                                          , args
                                          , toEventQuery::READ_ALL
                                         );
-            connect(SessionIO, SIGNAL(dataAvailable(toEventQuery*)), this, SLOT(slotPollSystem()));
+            auto c1 = connect(Query, &toEventQuery::dataAvailable, this, &toResultStats::receiveStatisticValuesData);
             connect(SessionIO, SIGNAL(done(toEventQuery*, unsigned long)), this, SLOT(slotSystemDone()));
             SessionIO->start();
         }
@@ -227,7 +227,7 @@ void toResultStats::slotRefreshStats(bool reset)
     TOCATCH
 }
 
-void toResultStats::slotPollQuery(void)
+void toResultStats::receiveStatisticNamesData(toEventQuery*)
 {
     if (!Utils::toCheckModal(this))
         return;
@@ -259,7 +259,7 @@ void toResultStats::slotQueryDone(void)
     resizeColumnsToContents();
 } // queryDone
 
-void toResultStats::slotPollSystem(void)
+void toResultStats::receiveStatisticValuesData(toEventQuery*)
 {
     if (!Utils::toCheckModal(this))
         return;

@@ -113,9 +113,9 @@ class toResultStats : public toResultView
         void slotRefreshStats(bool reset = true);
 
     private slots:
-        void slotPollQuery(void);
+        void receiveStatisticNamesData(toEventQuery*);
         void slotQueryDone(void);
-        void slotPollSystem(void);
+        void receiveStatisticValuesData(toEventQuery*);
         void slotSystemDone(void);
 
     private:

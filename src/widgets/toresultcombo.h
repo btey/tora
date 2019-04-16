@@ -117,7 +117,7 @@ class toResultCombo : public QComboBox, public toResult
         virtual void slotQueryDone(void);
 
     private slots:
-        void slotPoll(void);
+        void receiveData(void);
         void slotChangeSelected(void);
 
     protected:

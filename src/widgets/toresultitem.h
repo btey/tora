@@ -141,7 +141,7 @@ class toResultItem : public QScrollArea, public toResult
         void done(void);
 
     private slots:
-        void slotPoll(void);
+        void receiveData(toEventQuery*);
         void slotQueryDone(void);
 
     private:

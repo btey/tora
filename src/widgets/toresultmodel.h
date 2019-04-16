@@ -263,7 +263,7 @@ class toResultModel : public QAbstractTableModel
         /**
          * Called when query has data available.
          */
-        void slotFetchMore(toEventQuery*);
+        void receiveData(toEventQuery*);
 
         /**
          * Called when last data piece available.

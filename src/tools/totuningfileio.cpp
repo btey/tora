@@ -269,8 +269,11 @@ void toTuningFileIO::refresh(void)
             LastStamp = CurrentStamp;
             CurrentStamp = time(NULL);
             Query = new toEventQuery(this, conn, toSQL::string(SQLFileIO, conn), toQueryParams(), toEventQuery::READ_ALL);
-            connect(Query, SIGNAL(dataAvailable(toEventQuery*)), this, SLOT(poll()));
+
+            auto c1 = connect(Query, &toEventQuery::dataAvailable, this, &toTuningFileIO::receiveData);
             connect(Query, SIGNAL(done(toEventQuery*, unsigned long)), this, SLOT(queryDone()));
+
+
             Query->start();
             LastTablespace = QString::null;
         }
@@ -287,7 +290,7 @@ void toTuningFileIO::queryDone(void)
     }
 }
 
-void toTuningFileIO::poll(void)
+void toTuningFileIO::receiveData(toEventQuery*)
 {
     try
     {

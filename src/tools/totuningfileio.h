@@ -55,7 +55,7 @@ public slots:
     void refresh(void);
     void changeCharts(int val);
     void changeConnection(void);
-    void poll(void);
+    void receiveData(toEventQuery*);
 private slots:
     void queryDone(void);
 private:

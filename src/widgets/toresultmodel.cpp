@@ -66,10 +66,7 @@ toResultModel::toResultModel(toEventQuery *query,
             SIGNAL(descriptionAvailable(toEventQuery*)),
             this,
             SLOT(slotReadHeaders(toEventQuery*)));
-    connect(query,
-            SIGNAL(dataAvailable(toEventQuery*)),
-            this,
-            SLOT(slotFetchMore(toEventQuery*)));
+    auto c1 = connect(query, &toEventQuery::dataAvailable, this, &toResultModel::receiveData);
     connect(query,
             SIGNAL(error(toEventQuery*, const toConnection::exception &)),
             this,
@@ -731,7 +728,7 @@ bool toResultModel::canFetchMore(const QModelIndex &parent) const
 }
 
 
-void toResultModel::slotFetchMore(toEventQuery*)
+void toResultModel::receiveData(toEventQuery*)
 {
     if (ReadAll)
     {
@@ -752,7 +749,7 @@ void toResultModel::slotFetchLast(toEventQuery*q, unsigned long rows)
 		QString message = QString::number(Query->rowsProcessed()) + (Query->rowsProcessed() == 1 ? tr(" row processed") : tr(" rows processed"));
 		emit lastResult(message, false);
 	}
-	slotFetchMore(q);
+	receiveData(q);
 }
 
 void toResultModel::fetchMore(const QModelIndex &parent)

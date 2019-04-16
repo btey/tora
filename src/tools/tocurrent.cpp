@@ -221,12 +221,12 @@ void toCurrent::processUpdate()
                              , CurrentUpdate.SQL
                              , param
                              , toEventQuery::READ_ALL);
-    connect(Query, SIGNAL(dataAvailable()), this, SLOT(slotPoll()));
+    connect(Query, &toEventQuery::dataAvailable, this, &toCurrent::receiveData);
     connect(Query, SIGNAL(done()), this, SLOT(slotQueryDone()));
     Query->start();
 } // processUpdate
 
-void toCurrent::slotPoll()
+void toCurrent::receiveData(toEventQuery*)
 {
     try
     {

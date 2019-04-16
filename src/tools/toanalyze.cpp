@@ -431,7 +431,7 @@ toWorksheetStatistic *toAnalyze::worksheet(void)
 
 void toAnalyze::startQuery(toEventQuery * q)
 {
-    connect(q, SIGNAL(dataAvailable(toEventQuery*)), this, SLOT(slotPoll(toEventQuery*)));
+    connect(q, &toEventQuery::dataAvailable, this, &toAnalyze::receiveData);
     connect(q, SIGNAL(done(toEventQuery*,unsigned long)), this, SLOT(slotQueryDone(toEventQuery*)));
     q->start();
 } // connectSlots
@@ -575,7 +575,7 @@ void toAnalyze::slotExecute(void)
     TOCATCH;
 }
 
-void toAnalyze::slotPoll(toEventQuery* q)
+void toAnalyze::receiveData(toEventQuery* q)
 {
     // This function will probably never be called as table statistics
     // calculation is a statement and it does not return any values.

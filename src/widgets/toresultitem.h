@@ -140,6 +140,7 @@ class toResultItem : public QScrollArea, public toResult
     private slots:
         void receiveData(toEventQuery*);
         void queryDone(toEventQuery*, unsigned long);
+        void queryError(toEventQuery*, const toConnection::exception &);
 
     private:
         /** Setup widget.

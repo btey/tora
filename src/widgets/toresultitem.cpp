@@ -377,6 +377,14 @@ void toResultItem::queryDone(toEventQuery*, unsigned long)
     Query = NULL;
 }
 
+void toResultItem::queryError(toEventQuery*, const toConnection::exception &str)
+{
+    delete Query;
+    Query = NULL;
+    done();
+    Utils::toStatusMessage(str);
+}
+
 void toResultItem::setup(int num, bool readable)
 {
     ReadableColumns = readable;
